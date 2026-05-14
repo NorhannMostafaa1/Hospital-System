@@ -1,0 +1,171 @@
+.dashboard-fade-in {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.welcome-section {
+  background: linear-gradient(145deg, #1d4ed8, #0ea5e9);
+  border-radius: 18px;
+  color: #fff;
+  padding: 26px;
+  box-shadow: var(--shadow);
+}
+
+.welcome-section h1 {
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.welcome-section p {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.stat-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-info span {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.stat-info strong {
+  font-size: 1.1rem;
+}
+
+.stat-info small {
+  color: var(--success);
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.glass-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.text-btn {
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.appointment-item {
+  background: #f8fbff;
+  border: 1px solid #dbe7f7;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.appointment-item-btn {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.date-badge {
+  background: #fff;
+  color: var(--text-h);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.date-badge .month,
+.date-badge .day {
+  display: block;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.date-badge .month {
+  font-size: 11px;
+  color: var(--text);
+}
+
+.details h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.details p {
+  margin: 2px 0 0;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.arrow {
+  margin-left: auto;
+  color: var(--accent);
+}
+
+.actions-box h3 {
+  margin-bottom: 12px;
+}
+
+.action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primary-action,
+.secondary-action {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-action {
+  background: var(--accent);
+  color: #fff;
+}
+
+.secondary-action {
+  background: #eef6ff;
+  color: var(--accent);
+}
+
+@media (max-width: 950px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}

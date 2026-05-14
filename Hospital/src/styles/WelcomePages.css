@@ -1,0 +1,222 @@
+.welcome-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #edf4ff 0%, #f8fbff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-page::before,
+.welcome-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.welcome-page::before {
+  width: 380px;
+  height: 380px;
+  top: -130px;
+  right: -90px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.16) 0%, rgba(37, 99, 235, 0) 72%);
+}
+
+.welcome-page::after {
+  width: 320px;
+  height: 320px;
+  bottom: -120px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, rgba(14, 165, 233, 0) 72%);
+}
+
+.patient-welcome {
+  background: radial-gradient(circle at 10% 10%, #dbeafe 0%, transparent 40%),
+    linear-gradient(180deg, #edf4ff 0%, #f8fbff 100%);
+}
+
+.doctor-welcome {
+  background: radial-gradient(circle at 90% 15%, #bfdbfe 0%, transparent 40%),
+    linear-gradient(180deg, #edf4ff 0%, #f8fbff 100%);
+}
+
+.welcome-card {
+  width: 100%;
+  max-width: 760px;
+  background: rgba(255, 255, 255, 0.93);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 34px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  pointer-events: none;
+}
+
+.welcome-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.welcome-card h1 {
+  margin-bottom: 8px;
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  letter-spacing: -0.02em;
+}
+
+.welcome-card p {
+  color: var(--text);
+}
+
+.welcome-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.welcome-btn {
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.welcome-btn.primary {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #fff;
+}
+
+.welcome-btn.secondary {
+  background: #eaf2ff;
+  color: var(--accent);
+  border-color: #c9dcff;
+}
+
+.welcome-btn.ghost {
+  background: #fff;
+  color: var(--text-h);
+  border-color: var(--border);
+}
+
+.welcome-btn:hover {
+  transform: translateY(-1px);
+}
+
+.welcome-btn.primary:hover {
+  box-shadow: 0 10px 16px rgba(29, 78, 216, 0.25);
+}
+
+.welcome-btn.secondary:hover,
+.welcome-btn.ghost:hover {
+  border-color: var(--accent-border);
+  background: #f7fbff;
+}
+
+.welcome-switch {
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.welcome-highlights {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.welcome-highlights article {
+  border: 1px solid #dfeafb;
+  border-radius: 12px;
+  background: #f8fbff;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.welcome-highlights strong {
+  color: var(--text-h);
+  font-size: 0.95rem;
+}
+
+.welcome-highlights span {
+  font-size: 12px;
+  color: var(--text);
+}
+
+.about-card {
+  max-width: 880px;
+}
+
+.about-hero-strip {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.about-hero-strip span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: var(--accent);
+  border: 1px solid #d3e2ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.about-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.about-grid article {
+  border: 1px solid #e3ecfa;
+  border-radius: 12px;
+  padding: 14px;
+  background: #f9fbff;
+  transition: var(--transition);
+}
+
+.about-grid article:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-grid h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 760px) {
+  .welcome-card {
+    padding: 24px;
+  }
+
+  .welcome-highlights {
+    grid-template-columns: 1fr;
+  }
+}

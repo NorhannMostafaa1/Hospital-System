@@ -1,0 +1,178 @@
+HOSPITAL PROJECT RUN GUIDE
+==========================
+
+Project folders
+---------------
+Root folder:
+  c:\Users\hp\Downloads\hospital last\Hospitnew
+
+Backend folder:
+  c:\Users\hp\Downloads\hospital last\Hospitnew\backend
+
+Frontend folder:
+  c:\Users\hp\Downloads\hospital last\Hospitnew\Hospital
+
+
+Required software
+-----------------
+1. Node.js and npm
+2. MongoDB Community Server, or another MongoDB database
+3. Two terminal windows: one for backend and one for frontend
+
+
+Database setup
+--------------
+The backend uses MongoDB through Mongoose.
+
+Default local database URL:
+  mongodb://127.0.0.1:27017/hospital_management
+
+The backend reads this value from:
+  backend\.env
+
+Expected backend .env:
+  MONGODB_URI=mongodb://127.0.0.1:27017/hospital_management
+  JWT_SECRET=your_secret_key_here
+  JWT_EXPIRY=7d
+  PORT=5000
+  NODE_ENV=development
+
+Optional CORS setting if needed:
+  FRONTEND_URL=http://localhost:5173,http://127.0.0.1:5173
+
+To start local MongoDB on Windows, open a terminal and run:
+  mongod
+
+If MongoDB is installed as a Windows service, start it from Services, or run:
+  
+  
+
+To check if MongoDB is running in PowerShell:
+  Get-Process | Where-Object { $_.ProcessName -match 'mongod|mongo' }
+
+To connect with MongoDB Shell:
+  mongosh
+
+Then inside mongosh:
+  use hospital_management
+  show collections
+
+MongoDB creates the hospital_management database automatically after the app saves data.
+
+
+Install dependencies
+--------------------
+Run these commands once, or whenever node_modules is missing.
+
+Backend:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\backend"
+  npm install
+
+Frontend:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\Hospital"
+  npm install
+
+
+Run the backend
+---------------
+Open terminal 1:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\backend"
+  npm run dev
+
+Backend URL:
+  http://localhost:5000
+
+Health check:
+  http://localhost:5000/api/health
+
+If dev mode is not needed:
+  npm start
+
+
+Run the frontend
+----------------
+Open terminal 2:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\Hospital"
+  npm run dev
+
+Frontend URL:
+  http://localhost:5173
+
+If Vite chooses another port, use the URL shown in the terminal.
+
+
+API connection
+--------------
+The frontend API base URL is defined in:
+  Hospital\src\services\api.js
+
+Default API URL:
+  http://localhost:5000/api
+
+Optional frontend .env file:
+  VITE_API_URL=http://localhost:5000/api
+
+If the backend port changes, update VITE_API_URL or the default value in api.js.
+
+
+Build checks
+------------
+Frontend production build:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\Hospital"
+  npm run build
+
+Frontend lint:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\Hospital"
+  npm run lint
+
+Backend syntax check examples:
+  cd "c:\Users\hp\Downloads\hospital last\Hospitnew\backend"
+  node --check src\app.js
+  node --check src\services\authService.js
+
+
+Main pages
+----------
+Patient welcome:
+  http://localhost:5173/patient/welcome
+
+Doctor welcome:
+  http://localhost:5173/doctor/welcome
+
+Shared login for both patient and doctor:
+  http://localhost:5173/login
+
+Patient signup:
+  http://localhost:5173/signup
+
+Doctor signup:
+  http://localhost:5173/doctor/signup
+
+Patient dashboard:
+  http://localhost:5173/patient/dashboard
+
+Doctor dashboard:
+  http://localhost:5173/doctor/dashboard
+
+
+Common problems
+---------------
+Problem: frontend cannot call backend.
+Check:
+  1. Backend is running on port 5000.
+  2. Frontend is running on port 5173.
+  3. backend\.env FRONTEND_URL includes the frontend URL.
+  4. Hospital\src\services\api.js points to http://localhost:5000/api.
+
+Problem: login/signup fails with database errors.
+Check:
+  1. MongoDB is running.
+  2. backend\.env has MONGODB_URI.
+  3. Backend terminal says "MongoDB connected successfully".
+
+Problem: port already in use.
+Check listening ports in PowerShell:
+  Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -in 5000,5173 }
+
+Problem: dependencies are missing.
+Run npm install inside both backend and Hospital folders.

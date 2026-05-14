@@ -1,0 +1,3 @@
+// Controllers will be added in upcoming steps.
+// Each controller file will contain the business logic for a resource
+// (e.g., authController, patientController, doctorController, appointmentController).

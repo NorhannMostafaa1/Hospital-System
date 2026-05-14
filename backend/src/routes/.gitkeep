@@ -1,0 +1,3 @@
+// Routes will be added in upcoming steps.
+// Each route file will map HTTP verbs + paths to controller functions
+// and apply the auth middleware where required.

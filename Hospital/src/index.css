@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f4f8ff;
+  --text-h: #0f172a;
+  --text: #5b6b82;
+  --border: #dbe6f2;
+  --accent: #1d4ed8;
+  --accent-bg: #eaf2ff;
+  --accent-border: #bdd3ff;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.05);
+  --transition: all 0.22s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: #eef4ff;
+  color: #1e293b;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  color: #0f172a;
+  letter-spacing: -0.03em; /* Tighter tracking for a modern look */
+  font-weight: 800;
+}
+
+a {
+  text-decoration: none;
+}

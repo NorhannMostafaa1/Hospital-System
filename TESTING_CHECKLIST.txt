@@ -1,0 +1,498 @@
+HOSPITAL PROJECT TESTING CHECKLIST
+==================================
+
+Testing goal
+------------
+Before submission, testers should confirm that the patient portal, doctor portal, authentication, appointment lifecycle, waitlist, medical records, notifications, and database/API behavior all work correctly.
+
+
+Main features to test
+---------------------
+1. Public pages
+  - Patient welcome page
+  - Doctor welcome page
+  - About Us page
+  - Navigation between patient and doctor welcome pages
+
+2. Authentication
+  - Patient signup
+  - Doctor signup
+  - Shared login for patient and doctor
+  - Correct redirect based on role
+  - Logout for both roles
+  - Invalid login error handling
+  - Duplicate email validation
+
+3. Patient portal
+  - Patient dashboard
+  - Doctor list loading
+  - Appointment booking
+  - Time slot loading
+  - Appointment list
+  - Appointment details
+  - Cancel appointment
+  - Reschedule appointment
+  - Join waitlist
+  - Medical records list
+  - Attachment download
+  - Profile page
+  - Notifications read and read-all
+
+4. Doctor portal
+  - Doctor dashboard stats
+  - Schedule list
+  - Appointment status changes
+  - Cancel appointment
+  - Reschedule appointment
+  - Waitlist accept
+  - Waitlist reject
+  - Patient list
+  - Patient timeline
+  - Create medical record
+  - Upload record attachment
+  - Doctor settings
+  - Working hours update
+  - Day unavailable override
+  - Notifications read and read-all
+
+5. Backend API/security
+  - Protected routes require login
+  - Patient cannot access doctor-only endpoints
+  - Doctor cannot access patient-only endpoints
+  - JWT token is saved after login/signup
+  - Invalid IDs and missing required fields return clear errors
+  - Database collections are created and updated correctly
+
+
+Important URLs
+--------------
+Frontend:
+  http://localhost:5173
+
+Backend health:
+  http://localhost:5000/api/health
+
+Shared login:
+  http://localhost:5173/login
+
+Patient signup:
+  http://localhost:5173/signup
+
+Doctor signup:
+  http://localhost:5173/doctor/signup
+
+Patient dashboard:
+  http://localhost:5173/patient/dashboard
+
+Doctor dashboard:
+  http://localhost:5173/doctor/dashboard
+
+
+Test data to create
+-------------------
+Create at least one patient:
+  Full name: Test Patient
+  Email: patient.test@example.com
+  Phone: 01000000000
+  Password: Test12345
+
+Create at least one doctor:
+  Full name: Test Doctor
+  Email: doctor.test@example.com
+  Phone: 01111111111
+  Specialization: Cardiology
+  Password: Test12345
+
+Create another doctor with "Other" specialization:
+  Specialization: Other
+  Write Specialization: Endocrinology
+
+
+Scenario tests and expected outcomes
+------------------------------------
+
+SCENARIO 1: Backend health check
+Steps:
+  1. Start MongoDB.
+  2. Start backend with npm run dev.
+  3. Open http://localhost:5000/api/health.
+Expected:
+  - Response success is true.
+  - Message says the Hospital API is running.
+  - No backend crash.
+
+SCENARIO 2: Frontend loads
+Steps:
+  1. Start frontend with npm run dev.
+  2. Open http://localhost:5173.
+Expected:
+  - App opens without blank page.
+  - Default route goes to patient welcome.
+  - Browser console has no fatal errors.
+
+SCENARIO 3: Patient signup
+Steps:
+  1. Open /signup.
+  2. Fill full name, email, phone, password, confirm password.
+  3. Submit.
+Expected:
+  - Account is created in MongoDB with role patient.
+  - User is redirected to /patient/dashboard.
+  - Token and active user are saved in localStorage.
+
+SCENARIO 4: Doctor signup
+Steps:
+  1. Open /doctor/signup.
+  2. Fill full name, email, phone, specialization, password, confirm password.
+  3. Submit.
+Expected:
+  - Account is created in MongoDB with role doctor.
+  - Doctor profile has specialization and department.
+  - User is redirected to /doctor/dashboard.
+
+SCENARIO 5: Doctor signup with custom specialization
+Steps:
+  1. Open /doctor/signup.
+  2. Choose specialization Other.
+  3. Enter a custom specialization.
+  4. Submit.
+Expected:
+  - Custom specialization is required.
+  - Account saves the custom specialization.
+  - User is redirected to doctor dashboard.
+
+SCENARIO 6: Duplicate email
+Steps:
+  1. Try to sign up with an email already used by another user.
+Expected:
+  - Signup fails.
+  - Message says email is already registered.
+  - No duplicate user is created.
+
+SCENARIO 7: Password confirmation mismatch
+Steps:
+  1. Open patient or doctor signup.
+  2. Enter different password and confirm password values.
+  3. Submit.
+Expected:
+  - Form does not submit to dashboard.
+  - Error says passwords do not match.
+
+SCENARIO 8: Shared login as patient
+Steps:
+  1. Open /login.
+  2. Enter patient email and password.
+Expected:
+  - Login succeeds.
+  - User is redirected to /patient/dashboard.
+  - Patient pages use patient token.
+
+SCENARIO 9: Shared login as doctor
+Steps:
+  1. Open /login or /doctor/login.
+  2. Enter doctor email and password.
+Expected:
+  - Login succeeds.
+  - User is redirected to /doctor/dashboard.
+  - Doctor pages use doctor token.
+
+SCENARIO 10: Invalid login
+Steps:
+  1. Open /login.
+  2. Enter wrong password.
+Expected:
+  - Login fails.
+  - Error says invalid email or password.
+  - User stays on login page.
+
+SCENARIO 11: Patient dashboard
+Steps:
+  1. Login as patient.
+  2. Open /patient/dashboard.
+Expected:
+  - Dashboard loads upcoming appointment and record summaries.
+  - Buttons navigate to appointments and records.
+  - Empty state is acceptable if no appointments/records exist.
+
+SCENARIO 12: Patient books appointment
+Steps:
+  1. Login as patient.
+  2. Open /patient/appointments/new.
+  3. Select doctor.
+  4. Select date and appointment type.
+  5. Select available time slot.
+  6. Submit.
+Expected:
+  - Appointment is created.
+  - User is redirected to /patient/appointments.
+  - Appointment appears in the list.
+  - Doctor can see the appointment in schedule.
+
+SCENARIO 13: No available slots and waitlist
+Steps:
+  1. Choose a doctor/date with no available slots.
+  2. Join waitlist with reason.
+Expected:
+  - Waitlist entry is created.
+  - Success message is shown.
+  - Doctor can see the waitlist entry.
+
+SCENARIO 14: Patient appointment list
+Steps:
+  1. Login as patient.
+  2. Open /patient/appointments.
+Expected:
+  - Existing appointments are listed.
+  - Each item shows doctor, date/time, type, and status.
+  - View Details opens the details page.
+
+SCENARIO 15: Patient cancels appointment
+Steps:
+  1. Open patient appointments.
+  2. Choose an appointment that can be cancelled.
+  3. Enter cancellation reason.
+  4. Confirm.
+Expected:
+  - Appointment status changes to cancelled.
+  - Reason is saved.
+  - Doctor can see updated status.
+
+SCENARIO 16: Patient reschedules appointment
+Steps:
+  1. Open patient appointments.
+  2. Choose reschedule.
+  3. Enter new date/time and optional note.
+Expected:
+  - Appointment updates to the new time if allowed.
+  - Appointment history contains reschedule information.
+  - Doctor schedule reflects the new date/time.
+
+SCENARIO 17: Doctor dashboard
+Steps:
+  1. Login as doctor.
+  2. Open /doctor/dashboard.
+Expected:
+  - Stats load from schedule and waitlist.
+  - Buttons navigate to schedule, patients, and settings.
+
+SCENARIO 18: Doctor schedule status update
+Steps:
+  1. Login as doctor.
+  2. Open /doctor/schedule.
+  3. Change an appointment status.
+Expected:
+  - Status updates successfully.
+  - Patient can see the changed status.
+  - Invalid transitions show an error.
+
+SCENARIO 19: Doctor handles waitlist accept
+Steps:
+  1. Login as doctor.
+  2. Open waitlist section in schedule.
+  3. Accept a waitlist request and choose appointment details if required.
+Expected:
+  - Waitlist status becomes accepted.
+  - Appointment is created for the patient.
+  - Patient sees the appointment.
+
+SCENARIO 20: Doctor handles waitlist reject
+Steps:
+  1. Login as doctor.
+  2. Reject a waitlist request with a reason.
+Expected:
+  - Waitlist status becomes rejected.
+  - Reason is saved.
+  - Patient can see notification/timeline information if available.
+
+SCENARIO 21: Doctor patient list
+Steps:
+  1. Login as doctor.
+  2. Open /doctor/patients.
+Expected:
+  - Patients with appointments for this doctor are listed.
+  - Patient cards show name, email, last visit/status.
+  - View opens patient timeline.
+
+SCENARIO 22: Patient timeline for doctor
+Steps:
+  1. Login as doctor.
+  2. Open a patient details page.
+Expected:
+  - Timeline loads appointments and records for that patient.
+  - Doctor cannot see unrelated patient data if not allowed.
+
+SCENARIO 23: Doctor creates medical record
+Steps:
+  1. Login as doctor.
+  2. Open a completed/eligible appointment in schedule.
+  3. Fill diagnosis, symptoms, medication, prescription, lab results, notes.
+  4. Submit.
+Expected:
+  - Medical record is created.
+  - Patient can see it in /patient/records.
+  - Record is linked to appointment, patient, and doctor.
+
+SCENARIO 24: Doctor uploads record attachment
+Steps:
+  1. While creating a record, attach a PDF file.
+Expected:
+  - File upload succeeds.
+  - Attachment appears on the patient record.
+  - Patient can download it.
+
+SCENARIO 25: Patient records
+Steps:
+  1. Login as patient.
+  2. Open /patient/records.
+Expected:
+  - Medical records are listed.
+  - Each record shows doctor, diagnosis, notes/details.
+  - Download attachment works when an attachment exists.
+
+SCENARIO 26: Doctor settings working hours
+Steps:
+  1. Login as doctor.
+  2. Open /doctor/settings.
+  3. Update working hours.
+Expected:
+  - Settings save successfully.
+  - Patient booking slot list reflects the new schedule.
+
+SCENARIO 27: Doctor marks day unavailable
+Steps:
+  1. Login as doctor.
+  2. Open /doctor/settings.
+  3. Mark a date unavailable and add reason.
+Expected:
+  - Day override is saved.
+  - Patients cannot book that doctor on that date.
+
+SCENARIO 28: Notifications
+Steps:
+  1. Login as patient or doctor.
+  2. Trigger an action that creates notification, such as appointment update.
+  3. Open notification center.
+  4. Mark one notification read.
+  5. Mark all read.
+Expected:
+  - Notifications load.
+  - Single notification read state changes.
+  - Read all marks all notifications as read.
+
+SCENARIO 29: Logout
+Steps:
+  1. Login as patient.
+  2. Logout.
+  3. Try to open /patient/dashboard.
+  4. Repeat as doctor for /doctor/dashboard.
+Expected:
+  - Session is cleared.
+  - User is redirected to login.
+  - Protected data is not shown after logout.
+
+SCENARIO 30: Authorization protection
+Steps:
+  1. Login as patient.
+  2. Try to access /doctor/dashboard.
+  3. Login as doctor.
+  4. Try patient-only API actions.
+Expected:
+  - Unauthorized role access is blocked by backend.
+  - API returns forbidden/unauthorized error.
+  - No protected data leaks between roles.
+
+SCENARIO 31: Database verification
+Steps:
+  1. Open mongosh.
+  2. Run:
+       use hospital_management
+       show collections
+       db.users.find({}, { email: 1, role: 1, fullName: 1 }).pretty()
+       db.appointments.find().pretty()
+       db.medicalrecords.find().pretty()
+       db.waitlistentries.find().pretty()
+Expected:
+  - Users have correct roles.
+  - Appointments are linked to patient and doctor IDs.
+  - Medical records are linked to appointment, patient, and doctor.
+  - Waitlist entries reflect accepted/rejected/pending states.
+
+
+API endpoints to cover
+----------------------
+Auth:
+  POST /api/auth/signup
+  POST /api/auth/login
+  POST /api/auth/patient/signup
+  POST /api/auth/patient/login
+  POST /api/auth/doctor/signup
+  POST /api/auth/doctor/login
+  GET /api/auth/me
+  PATCH /api/auth/me
+
+Patient:
+  GET /api/patient/doctors
+  GET /api/patient/time-slots
+  GET /api/patient/appointments
+  POST /api/patient/appointments
+  PATCH /api/patient/appointments/:id/cancel
+  PATCH /api/patient/appointments/:id/reschedule
+  POST /api/patient/waitlist
+  GET /api/patient/records
+  GET /api/patient/notifications
+  PATCH /api/patient/notifications/:id/read
+  PATCH /api/patient/notifications/read-all
+
+Doctor:
+  GET /api/doctor/schedule
+  GET /api/doctor/waitlist
+  PATCH /api/doctor/waitlist/:id/accept
+  PATCH /api/doctor/waitlist/:id/reject
+  PATCH /api/doctor/settings/working-hours
+  PATCH /api/doctor/schedule/day-unavailable
+  PATCH /api/doctor/appointments/:id/status
+  PATCH /api/doctor/appointments/:id/cancel
+  PATCH /api/doctor/appointments/:id/reschedule
+  GET /api/doctor/patients/:patientId/timeline
+  GET /api/doctor/records
+  POST /api/doctor/records
+  PATCH /api/doctor/records/:id/amend
+  GET /api/doctor/notifications
+  PATCH /api/doctor/notifications/:id/read
+  PATCH /api/doctor/notifications/read-all
+
+Records:
+  GET /api/records
+  GET /api/records/:id
+  POST /api/records
+  PATCH /api/records/:id/amend
+  PATCH /api/records/:id/lock
+  POST /api/records/:id/attachments
+  GET /api/records/:id/attachments/:attachmentId/download
+
+Schedules and appointments:
+  GET /api/schedules/slots
+  PATCH /api/schedules/me
+  PATCH /api/schedules/me/override
+  GET /api/appointments
+  POST /api/appointments
+  POST /api/appointments/waitlist
+  PATCH /api/appointments/:id/status
+  PATCH /api/appointments/:id/cancel
+  PATCH /api/appointments/:id/reschedule
+
+
+Submission checklist
+--------------------
+Before submission, confirm:
+  - Backend starts without errors.
+  - Frontend starts without errors.
+  - MongoDB connection succeeds.
+  - npm run build succeeds in Hospital folder.
+  - No blank pages.
+  - Login redirects correctly for both roles.
+  - Patient can book, cancel, reschedule, waitlist, and view records.
+  - Doctor can manage schedule, waitlist, records, patients, and settings.
+  - Notifications work for both roles.
+  - Role protection works.
+  - Test data in MongoDB matches UI behavior.

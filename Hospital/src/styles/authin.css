@@ -1,0 +1,74 @@
+/* Reuse the layout logic from authup.css */
+@import "./authup.css";
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.form-options {
+  margin: 15px 0;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.divider:not(:empty)::before { margin-right: .5em; }
+.divider:not(:empty)::after { margin-left: .5em; }
+
+.social-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.social-btn {
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.social-btn:hover {
+  background: #f5f9ff;
+  border-color: var(--accent-border);
+}
+
+.form-card .divider {
+  margin: 24px 0;
+}
+.form-error {
+  background: #fff1f2;
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-weight: 600;
+}

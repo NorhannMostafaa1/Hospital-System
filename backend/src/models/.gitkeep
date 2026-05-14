@@ -1,0 +1,3 @@
+// Models will be added in upcoming steps.
+// Each model file will export SQL query helpers for a specific entity
+// (e.g., User, Doctor, Appointment) using the pg pool from config/db.js.
